@@ -5,6 +5,7 @@
 #' @importFrom truncnorm 'rtruncnorm'
 
 motr_bart = function(x,
+                     x_binary = NULL, # names of the binary treatment variables
                      y,
                      sparse = TRUE,
                      vars_inter_slope = TRUE,
@@ -18,10 +19,17 @@ motr_bart = function(x,
                      nburn = 1000,
                      npost = 1000,
                      nthin = 1,
-                     ancestors = FALSE) {
+                     ancestors = FALSE,
+                     var_linear_pred = c('binary treatments', 'covariates + binary treatment', 'covariates + binary treatment + propensity scores')) {
 
   X_orig = x
   X = as.matrix(cbind(1,scale(x))) # standardising the covariates and adding an intercept
+
+  aa = data.frame(matrix(rnorm(9),3))
+  bb = c('X1', 'X3')
+  if (is.null(x_binary) == FALSE){
+    binary_treatment_variables = which(names(x)%in%x_binary)
+  }
 
   aux.X = apply(X, 2, unique) # Checking how many unique values each variable has
   unique.values.X = unlist(lapply(aux.X, length))
@@ -122,7 +130,9 @@ motr_bart = function(x,
                             nu,
                             lambda,
                             tau_b,
-                            ancestors) +
+                            ancestors,
+                            var_linear_pred,
+                            binary_treatment_variables) +
         get_tree_prior(curr_trees[[j]], alpha, beta)
 
       # NEW TREE: compute the log of the marginalised likelihood + log of the tree prior
@@ -135,7 +145,9 @@ motr_bart = function(x,
                                     nu,
                                     lambda,
                                     tau_b,
-                                    ancestors) +
+                                    ancestors,
+                                    var_linear_pred,
+                                    binary_treatment_variables) +
         get_tree_prior(new_trees[[j]], alpha, beta)
 
       # Exponentiate the results above
@@ -165,7 +177,9 @@ motr_bart = function(x,
                                     inv_V,
                                     tau_b,
                                     nu,
-                                    ancestors)
+                                    ancestors,
+                                    var_linear_pred,
+                                    binary_treatment_variables)
 
       current_fit = get_predictions(curr_trees[j], X, single_tree = TRUE, ancestors)
       predictions = predictions - tree_fits_store[,j] # subtract the old fit

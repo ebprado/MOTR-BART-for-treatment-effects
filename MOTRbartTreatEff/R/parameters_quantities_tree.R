@@ -12,7 +12,7 @@
 # 6. get_number_distinct_cov: counts the number of distinct covariates that are used in a tree to create the splitting rules
 # Compute the full conditionals -------------------------------------------------
 
-tree_full_conditional = function(tree, X, R, sigma2, V, inv_V, nu, lambda, tau_b, ancestors) {
+tree_full_conditional = function(tree, X, R, sigma2, V, inv_V, nu, lambda, tau_b, ancestors, var_linear_pred, binary_treatment_variables) {
 
   # Select the lines that correspond to terminal and internal nodes
   which_terminal = which(tree$tree_matrix[,'terminal'] == 1)
@@ -29,6 +29,9 @@ tree_full_conditional = function(tree, X, R, sigma2, V, inv_V, nu, lambda, tau_b
   if (ancestors == FALSE) {lm_vars <- c(1, sort(unique(as.numeric(split_vars_tree))))}
   # if (ancestors == 'all covariates') {lm_vars <- 1:ncol(X)}
   if (ancestors == TRUE) {get_ancs <- get_ancestors(tree)}
+  if (var_linear_pred == 'binary treatments'){
+    lm_vars = binary_treatment_variables
+  }
 
   # Compute the log marginalised likelihood for each terminal node
   for(i in 1:length(unique_node_indices)) {
@@ -57,7 +60,7 @@ tree_full_conditional = function(tree, X, R, sigma2, V, inv_V, nu, lambda, tau_b
 
 # Simulate_par -------------------------------------------------------------
 
-simulate_beta = function(tree, X, R, sigma2, inv_V, tau_b, nu, ancestors) {
+simulate_beta = function(tree, X, R, sigma2, inv_V, tau_b, nu, ancestors, var_linear_pred, binary_treatment_variables) {
 
   # First find which rows are terminal and internal nodes
   which_terminal = which(tree$tree_matrix[,'terminal'] == 1)
@@ -75,6 +78,10 @@ simulate_beta = function(tree, X, R, sigma2, inv_V, tau_b, nu, ancestors) {
   if (ancestors == FALSE) {lm_vars <- c(1, sort(unique(as.numeric(split_vars_tree))))}
   # if (ancestors == 'all covariates') {lm_vars <- 1:ncol(X)}
   if (ancestors == TRUE) {get_ancs <- get_ancestors(tree)}
+
+  if (var_linear_pred == 'binary treatments'){
+    lm_vars = binary_treatment_variables
+  }
 
   for(i in 1:length(unique_node_indices)) {
     if (ancestors == TRUE) {
