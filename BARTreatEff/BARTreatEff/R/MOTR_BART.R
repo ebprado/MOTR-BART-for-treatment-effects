@@ -25,8 +25,6 @@ motr_bart = function(x,
   X_orig = x
   X = as.matrix(cbind(1,scale(x))) # standardising the covariates and adding an intercept
 
-  aa = data.frame(matrix(rnorm(9),3))
-  bb = c('X1', 'X3')
   if (is.null(x_binary) == FALSE){
     binary_treatment_variables = which(names(x)%in%x_binary)
   }
@@ -66,6 +64,10 @@ motr_bart = function(x,
   n = length(y_scale)
   p = ncol(X_orig)
   s = rep(1/p, p)
+
+  if (is.null(x_binary) == FALSE){
+    s[binary_treatment_variables] = 0 # these covariates won't used in the tree structure
+  }
 
   # Prior for the beta vector
   tau_b = ntrees

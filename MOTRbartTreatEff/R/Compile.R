@@ -1,7 +1,0 @@
-library(devtools)
-remove.packages('MOTRbartTreatEff')
-load_all()
-document()
-check()
-build()
-install_github("ebprado/MOTR-BART-for-treatment-effects/MOTRbartTreatEff")

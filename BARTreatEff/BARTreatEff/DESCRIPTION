@@ -1,4 +1,4 @@
-Package: MOTRbartTreatEff
+Package: BARTreatEff
 Type: Package
 Title: Bayesian Additive Regression Trees with Model Trees
 Version: 0.1.0
