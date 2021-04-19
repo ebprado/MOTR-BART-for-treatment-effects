@@ -4,7 +4,7 @@ load_all()
 document()
 check()
 build()
-install_github("ebprado/MOTR-BART-for-treatment-effects/MOTRbartTreatEff")
+install_github("ebprado/MOTR-BART-for-treatment-effects/BARTreatEff")
 
 library(policytree)
 n = 10
