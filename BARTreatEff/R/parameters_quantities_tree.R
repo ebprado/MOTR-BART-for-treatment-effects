@@ -44,7 +44,7 @@ tree_full_conditional = function(tree, X, R, sigma2, V, inv_V, nu, lambda, tau_b
     # invV = diag(c(inv_V[1], rep(inv_V[2], p - 1)), ncol = p)
     # V_ = diag(c(V[1], rep(V[2], p - 1)), ncol=p)
     invV = diag(rep(inv_V[2], p))
-    V_ = diag(rep(V[2], p - 1))
+    V_ = diag(rep(V[2], p))
     # invV = diag(p)*inv_V
     X_node = X[curr_X_node_indices == unique_node_indices[i], lm_vars]
     r_node = R[curr_X_node_indices == unique_node_indices[i]]
