@@ -106,9 +106,11 @@ get_predictions = function(trees, X, single_tree = FALSE, ancestors, var_linear_
     # Do a recursive call to the function
     partial_trees = trees
     partial_trees[[1]] = NULL # Blank out that element of the list
-    predictions = get_predictions(trees[[1]], X, single_tree = TRUE, ancestors)  +
+    predictions = get_predictions(trees[[1]], X, single_tree = TRUE, ancestors, var_linear_pred,
+                                  binary_treatment_variables)  +
       get_predictions(partial_trees, X,
-                      single_tree = length(partial_trees) == 1, ancestors)
+                      single_tree = length(partial_trees) == 1, ancestors, var_linear_pred,
+                      binary_treatment_variables)
     #single_tree = !is.null(names(partial_trees)))
     # The above only sets single_tree to if the names of the object is not null (i.e. is a list of lists)
   }
