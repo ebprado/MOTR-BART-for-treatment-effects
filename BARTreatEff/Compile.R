@@ -1,5 +1,5 @@
 library(devtools)
-remove.packages('MOTRbartTreatEff')
+remove.packages('BARTreatEff')
 load_all()
 document()
 check()

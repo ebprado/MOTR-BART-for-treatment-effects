@@ -188,15 +188,17 @@ update_vars_intercepts_slopes <- function(trees, n_tress, sigma2, a0 = 1, b0 = 1
       # get all coefficients of the linear predictors for each terminal node
       all_coef = strsplit(tree$tree_matrix[terminal_nodes, 'beta_hat'], ',')
       # get intercepts
-      inter = as.numeric(unlist(lapply(all_coef, '[', 1)))
+      # inter = as.numeric(unlist(lapply(all_coef, '[', 1)))
       # get slopes
-      slopes = as.numeric(unlist(lapply(all_coef, '[', -1)))
+      # slopes = as.numeric(unlist(lapply(all_coef, '[', -1)))
+      slopes = as.numeric(unlist(all_coef))
 
       n_terminal = n_terminal + length(terminal_nodes)
       n_vars_terminal = n_vars_terminal + length(slopes)
-      sum_of_squares_inter = sum_of_squares_inter + sum(inter^2)
+      # sum_of_squares_inter = sum_of_squares_inter + sum(inter^2)
       sum_of_squares_slopes = sum_of_squares_slopes + sum(slopes^2)
     }
-    return(list(var_inter = rgamma(1, (n_terminal/2) + a0, sum_of_squares_inter/(2*sigma2) + b0),
+    return(list(# var_inter = rgamma(1, (n_terminal/2) + a0, sum_of_squares_inter/(2*sigma2) + b0),
+                var_inter = 0,
                 var_slopes = rgamma(1, (n_vars_terminal/2) + a1, sum_of_squares_slopes/(2*sigma2) + b1)))
 }

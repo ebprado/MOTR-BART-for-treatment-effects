@@ -41,8 +41,10 @@ tree_full_conditional = function(tree, X, R, sigma2, V, inv_V, nu, lambda, tau_b
       lm_vars = c(get_ancs[which(get_ancs[,'terminal'] == unique_node_indices[i]), 'ancestor']) # Get the corresponding ancestors of the current terminal node
     }
     p = length(lm_vars)
-    invV = diag(c(inv_V[1], rep(inv_V[2], p - 1)), ncol = p)
-    V_ = diag(c(V[1], rep(V[2], p - 1)), ncol=p)
+    # invV = diag(c(inv_V[1], rep(inv_V[2], p - 1)), ncol = p)
+    # V_ = diag(c(V[1], rep(V[2], p - 1)), ncol=p)
+    invV = diag(rep(inv_V[2], p))
+    V_ = diag(rep(V[2], p - 1))
     # invV = diag(p)*inv_V
     X_node = X[curr_X_node_indices == unique_node_indices[i], lm_vars]
     r_node = R[curr_X_node_indices == unique_node_indices[i]]
@@ -92,7 +94,8 @@ simulate_beta = function(tree, X, R, sigma2, inv_V, tau_b, nu, ancestors, var_li
       lm_vars = c(get_ancs[which(get_ancs[,'terminal'] == unique_node_indices[i]), 'ancestor']) # Get the corresponding ancestors of the current terminal node
     }
     p = length(lm_vars)
-    invV = diag(c(inv_V[1], rep(inv_V[2], p - 1)), ncol = p)
+    # invV = diag(c(inv_V[1], rep(inv_V[2], p - 1)), ncol = p)
+    invV = diag(rep(inv_V[2], p))
     # invV = diag(p)*inv_V
     X_node = X[curr_X_node_indices == unique_node_indices[i], lm_vars] # Only variables that have been used as split
     r_node = R[curr_X_node_indices == unique_node_indices[i]]
