@@ -26,7 +26,8 @@ tree_full_conditional = function(tree, X, R, sigma2, V, inv_V, nu, lambda, tau_b
   # Get the covariates that have been used as a split
   split_vars_tree <- tree$tree_matrix[which_internal, 'split_variable']
 
-  if (ancestors == FALSE) {lm_vars <- c(1, sort(unique(as.numeric(split_vars_tree))))}
+  # if (ancestors == FALSE) {lm_vars <- c(1, sort(unique(as.numeric(split_vars_tree))))}
+  if (ancestors == FALSE) {lm_vars <- c(sort(unique(as.numeric(split_vars_tree))))}
   # if (ancestors == 'all covariates') {lm_vars <- 1:ncol(X)}
   if (ancestors == TRUE) {get_ancs <- get_ancestors(tree)}
   if (var_linear_pred == 'binary treatments'){
@@ -36,7 +37,8 @@ tree_full_conditional = function(tree, X, R, sigma2, V, inv_V, nu, lambda, tau_b
   # Compute the log marginalised likelihood for each terminal node
   for(i in 1:length(unique_node_indices)) {
     if (ancestors == TRUE) {
-      lm_vars = c(1, get_ancs[which(get_ancs[,'terminal'] == unique_node_indices[i]), 'ancestor']) # Get the corresponding ancestors of the current terminal node
+      # lm_vars = c(1, get_ancs[which(get_ancs[,'terminal'] == unique_node_indices[i]), 'ancestor']) # Get the corresponding ancestors of the current terminal node
+      lm_vars = c(get_ancs[which(get_ancs[,'terminal'] == unique_node_indices[i]), 'ancestor']) # Get the corresponding ancestors of the current terminal node
     }
     p = length(lm_vars)
     invV = diag(c(inv_V[1], rep(inv_V[2], p - 1)), ncol = p)
@@ -75,7 +77,8 @@ simulate_beta = function(tree, X, R, sigma2, inv_V, tau_b, nu, ancestors, var_li
 
   # Get the covariates that have been used as a split
   split_vars_tree <- tree$tree_matrix[which_internal, 'split_variable']
-  if (ancestors == FALSE) {lm_vars <- c(1, sort(unique(as.numeric(split_vars_tree))))}
+  # if (ancestors == FALSE) {lm_vars <- c(1, sort(unique(as.numeric(split_vars_tree))))}
+  if (ancestors == FALSE) {lm_vars <- c(sort(unique(as.numeric(split_vars_tree))))}
   # if (ancestors == 'all covariates') {lm_vars <- 1:ncol(X)}
   if (ancestors == TRUE) {get_ancs <- get_ancestors(tree)}
 
@@ -85,7 +88,8 @@ simulate_beta = function(tree, X, R, sigma2, inv_V, tau_b, nu, ancestors, var_li
 
   for(i in 1:length(unique_node_indices)) {
     if (ancestors == TRUE) {
-      lm_vars = c(1, get_ancs[which(get_ancs[,'terminal'] == unique_node_indices[i]), 'ancestor']) # Get the corresponding ancestors of the current terminal node
+      # lm_vars = c(1, get_ancs[which(get_ancs[,'terminal'] == unique_node_indices[i]), 'ancestor']) # Get the corresponding ancestors of the current terminal node
+      lm_vars = c(get_ancs[which(get_ancs[,'terminal'] == unique_node_indices[i]), 'ancestor']) # Get the corresponding ancestors of the current terminal node
     }
     p = length(lm_vars)
     invV = diag(c(inv_V[1], rep(inv_V[2], p - 1)), ncol = p)

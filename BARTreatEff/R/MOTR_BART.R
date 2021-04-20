@@ -20,11 +20,12 @@ motr_bart = function(x,
                      npost = 1000,
                      nthin = 1,
                      ancestors = FALSE,
-                     var_linear_pred = NULL ) # c('binary treatments', 'covariates + binary treatment', 'covariates + binary treatment + propensity scores')
+                     var_linear_pred = NULL) # c('binary treatments', 'covariates + binary treatment', 'covariates + binary treatment + propensity scores')
 {
 
   X_orig = x
-  X = as.matrix(cbind(1,scale(x))) # standardising the covariates and adding an intercept
+  # X = as.matrix(cbind(1,scale(x))) # standardising the covariates and adding an intercept
+  X = as.matrix(scale(x)) # no intercept
 
   if (is.null(x_binary) == FALSE){
     binary_treatment_variables = which(names(x)%in%x_binary)
