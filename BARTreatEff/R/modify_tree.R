@@ -121,8 +121,8 @@ grow_tree = function(X, y, curr_tree, node_min_size, s) {
                            prob = as.integer(terminal_node_size > node_min_size)) # Choose which node to split, set prob to zero for any nodes that are too small
 
     # Choose a split variable uniformly from all columns (the first one is the intercept)
-    split_variable = sample(2:ncol(X), 1, prob = s)
-
+    # split_variable = sample(2:ncol(X), 1, prob = s)
+    split_variable = sample(1:ncol(X), 1, prob = s)
     # Alternatively follow BARTMachine and choose a split value using sample on the internal values of the available
     available_values = sort(unique(X[new_tree$node_indices == node_to_split,
                                      split_variable]))
