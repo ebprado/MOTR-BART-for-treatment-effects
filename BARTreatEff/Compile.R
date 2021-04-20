@@ -8,10 +8,38 @@ install_github("ebprado/MOTR-BART-for-treatment-effects/BARTreatEff")
 
 library(BARTreatEff)
 library(policytree)
+library(BART)
 n = 500
 p = 10
+
 data <- gen_data_mapl(n, p)
-x = as.data.frame(data$X)
+data.test <- gen_data_mapl(n, p)
+
+temp_treats_train <- as.character(data$action)
+
+xtrain_with_t <- cbind(model.matrix(~ temp_treats_train - 1), data$X)
+
+xtest_with_1 <- cbind(rep(1,n), rep(0,n), rep(0,n)  , data.test$X)
+xtest_with_2 <- cbind(rep(0,n), rep(1,n), rep(0,n)  , data.test$X)
+xtest_with_3 <- cbind(rep(0,n), rep(0,n), rep(1,n)  , data.test$X)
+
+xtest_all <- rbind(xtest_with_1, xtest_with_2, xtest_with_3)
+
+
+#train BART
+post <- wbart(xtrain_with_t,
+              data$Y,
+              xtest_all,
+              ndpost = 2000)
+plot(post$yhat.train.mean, data$Y);abline(0,1)
+
+## MOTR-BART
+x = as.data.frame(xtrain_with_t)
 y = data$Y
 
-motr_bart_fit = BARTreatEff::motr_bart(x, x_binary = c('V1', 'V2', 'V4'), y = y, var_linear_pred = 'binary treatments')
+motr_bart_fit = BARTreatEff::motr_bart(x,
+                                       x_binary = c('temp_treats_train0', 'temp_treats_train1', 'temp_treats_train2'),
+                                       y = y,
+                                       var_linear_pred = 'binary treatments')
+yhat = apply(motr_bart_fit$y_hat,2,mean)
+plot(yhat, y);abline(0,1)

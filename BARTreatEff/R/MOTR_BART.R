@@ -33,8 +33,8 @@ motr_bart = function(x,
 
   aux.X = apply(X, 2, unique) # Checking how many unique values each variable has
   unique.values.X = unlist(lapply(aux.X, length))
-  X[, which(unique.values.X==2)] = as.matrix(X_orig[, which(unique.values.X==2)-1]) # Keeping the binary variables as they originally are
-
+  # X[, which(unique.values.X==2)] = as.matrix(X_orig[, which(unique.values.X==2)-1]) # Keeping the binary variables as they originally are
+  X[, which(unique.values.X==2)] = as.matrix(X_orig[, which(unique.values.X==2)]) # Keeping the binary variables as they originally are
   # Quantities needed for prediction
   center = apply(X_orig, 2, mean)
   scale = apply(X_orig, 2, sd)
