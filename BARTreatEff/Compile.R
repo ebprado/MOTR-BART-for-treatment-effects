@@ -1,16 +1,17 @@
 library(devtools)
-# remove.packages('MOTRbartTreatEff')
+remove.packages('MOTRbartTreatEff')
 load_all()
 document()
 check()
 build()
 install_github("ebprado/MOTR-BART-for-treatment-effects/BARTreatEff")
 
+library(BARTreatEff)
 library(policytree)
-n = 10
+n = 500
 p = 10
 data <- gen_data_mapl(n, p)
-data.test <- gen_data_mapl(n, p)
+x = as.data.frame(data$X)
+y = data$Y
 
-aa = data$X
-data$region
+motr_bart_fit = BARTreatEff::motr_bart(x, x_binary = c('V1', 'V2', 'V4'), y = y)
