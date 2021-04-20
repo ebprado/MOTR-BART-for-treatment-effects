@@ -80,7 +80,7 @@ update_tree = function(y, # Target variable
   new_tree = switch(type,
                     grow = grow_tree(X, y, curr_tree, node_min_size, s),
                     prune = prune_tree(X, y, curr_tree),
-                    change = change_tree(X, y, curr_tree, node_min_size),
+                    change = change_tree(X, y, curr_tree, node_min_size, s),
                     swap = swap_tree(X, y, curr_tree, node_min_size))
 
   # Return the new tree
@@ -260,7 +260,7 @@ prune_tree = function(X, y, curr_tree) {
 
 # change_tree function ----------------------------------------------------
 
-change_tree = function(X, y, curr_tree, node_min_size) {
+change_tree = function(X, y, curr_tree, node_min_size, s) {
 
   # Change a node means change out the split value and split variable of an internal node. Need to make sure that this does now produce a bad tree (i.e. zero terminal nodes)
 
@@ -303,7 +303,8 @@ change_tree = function(X, y, curr_tree, node_min_size) {
 
     available_values = NULL
 
-    new_split_variable = sample(2:ncol(X), 1)
+    # new_split_variable = sample(2:ncol(X), 1)
+    new_split_variable = sample(1:ncol(X), 1, prob=s)
 
     available_values = sort(unique(X[use_node_indices,
                                      new_split_variable]))

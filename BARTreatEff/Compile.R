@@ -32,14 +32,17 @@ post <- wbart(xtrain_with_t,
               xtest_all,
               ndpost = 2000)
 plot(post$yhat.train.mean, data$Y);abline(0,1)
-
+cor(post$yhat.train.mean, data$Y)
 ## MOTR-BART
 x = as.data.frame(xtrain_with_t)
 y = data$Y
 
 motr_bart_fit = BARTreatEff::motr_bart(x,
-                                       x_binary = c('temp_treats_train0', 'temp_treats_train1', 'temp_treats_train2'),
+                                       x_binary = c('temp_treats_train0',
+                                                    'temp_treats_train1',
+                                                    'temp_treats_train2'),
                                        y = y,
                                        var_linear_pred = 'binary treatments')
 yhat = apply(motr_bart_fit$y_hat,2,mean)
 plot(yhat, y);abline(0,1)
+cor(yhat, y)
