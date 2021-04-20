@@ -55,7 +55,8 @@ fill_tree_details = function(curr_tree, X) {
 
 # Get predictions ---------------------------------------------------------
 
-get_predictions = function(trees, X, single_tree = FALSE, ancestors) {
+get_predictions = function(trees, X, single_tree = FALSE, ancestors, var_linear_pred,
+                           binary_treatment_variables) {
 
   # Stop nesting problems in case of multiple trees
   if(is.null(names(trees)) & (length(trees) == 1)) trees = trees[[1]]
@@ -81,6 +82,10 @@ get_predictions = function(trees, X, single_tree = FALSE, ancestors) {
       if (ancestors == FALSE) {lm_vars <- c(1, sort(unique(as.numeric(split_vars_tree))))}
       #if (ancestors == 'all covariates') {lm_vars <- 1:ncol(X)}
       if (ancestors == TRUE) {get_ancs <- get_ancestors(trees)}
+
+      if (var_linear_pred == 'binary treatments'){
+        lm_vars = binary_treatment_variables
+      }
 
       n = nrow(X)
 
