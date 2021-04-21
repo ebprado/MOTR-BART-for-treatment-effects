@@ -25,14 +25,6 @@ xtest_with_3 <- cbind(rep(0,n), rep(0,n), rep(1,n)  , data.test$X)
 
 xtest_all <- rbind(xtest_with_1, xtest_with_2, xtest_with_3)
 
-#train BART
-post <- wbart(xtrain_with_t,
-              data$Y,
-              xtest_all,
-              ndpost = 2000)
-plot(post$yhat.train.mean, data$Y);abline(0,1)
-cor(post$yhat.train.mean, data$Y)
-
 ## MOTR-BART
 x = as.data.frame(xtrain_with_t)
 y = data$Y
@@ -44,16 +36,17 @@ motr_bart_fit = BARTreatEff::motr_bart(x,
                                        y = y,
                                        var_linear_pred = 'covariates + binary treatment',
                                        # var_linear_pred = 'binary treatments',
-                                       npost = 100)
-yhat = apply(motr_bart_fit$y_hat,2,mean)
+                                       npost = 1000)
+yhat = apply(motr_bart_fit$y_hat,2,mean) # predicted y
 plot(yhat, y);abline(0,1)
 cor(yhat, y)
-motr_bart_fit$trees[[100]]
+motr_bart_fit$trees[[100]] # tree structure of 100th MCMC iteration (post burn-in)
+yhat_pred = predict_motr_bart(motr_bart_fit, x, type='mean')
 
-
-
-
-aa = 1:10
-bb = 15:20
-
-aa = c(aa,bb)
+#train BART
+post <- wbart(xtrain_with_t,
+              data$Y,
+              xtest_all,
+              ndpost = 2000)
+plot(post$yhat.train.mean, data$Y);abline(0,1)
+cor(post$yhat.train.mean, data$Y)

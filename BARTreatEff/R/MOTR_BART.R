@@ -237,6 +237,8 @@ motr_bart = function(x,
               ancestors = ancestors,
               var_count_store = var_count_store,
               s = s_prob_store,
-              vars_betas = vars_betas_store))
+              vars_betas = vars_betas_store,
+              var_linear_pred = var_linear_pred,
+              binary_treatment_variables = binary_treatment_variables))
 
 } # End main function

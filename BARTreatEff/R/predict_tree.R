@@ -7,6 +7,8 @@ predict_motr_bart = function(object, newdata,
   scale = object$scale_x
   newdata = as.matrix(cbind(1,scale(newdata, center=center, scale=scale)))
   ancestors = object$ancestors
+  var_linear_pred = object$var_linear_pred
+  binary_treatment_variables = object$binary_treatment_variables
 
   # Create holder for predicted values
   n_newX = dim(newdata)[1]
@@ -24,7 +26,9 @@ predict_motr_bart = function(object, newdata,
     y_hat_mat[i,] = get_predictions(curr_trees,
                                     newdata,
                                     single_tree = length(curr_trees) == 2,
-                                    ancestors = ancestors)
+                                    ancestors = ancestors,
+                                    var_linear_pred = var_linear_pred,
+                                    binary_treatment_variables = binary_treatment_variables)
   }
 
   # Sort out what to return
