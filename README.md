@@ -36,8 +36,8 @@ motr_bart_fit = BARTreatEff::motr_bart(x,
                                                     'temp_treats_train1',
                                                     'temp_treats_train2'),
                                        y = y,
-                                       var_linear_pred = 'covariates + binary treatment',
-                                       # var_linear_pred = 'binary treatments',
+                                       # var_linear_pred = 'covariates + binary treatment', # scenario 2 and 3
+                                       var_linear_pred = 'binary treatments', # scenario 1
                                        npost = 1000)
 yhat = apply(motr_bart_fit$y_hat,2,mean) # predicted y
 plot(yhat, y);abline(0,1)
