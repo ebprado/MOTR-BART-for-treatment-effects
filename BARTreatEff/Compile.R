@@ -25,7 +25,6 @@ xtest_with_3 <- cbind(rep(0,n), rep(0,n), rep(1,n)  , data.test$X)
 
 xtest_all <- rbind(xtest_with_1, xtest_with_2, xtest_with_3)
 
-
 #train BART
 post <- wbart(xtrain_with_t,
               data$Y,
@@ -46,3 +45,4 @@ motr_bart_fit = BARTreatEff::motr_bart(x,
 yhat = apply(motr_bart_fit$y_hat,2,mean)
 plot(yhat, y);abline(0,1)
 cor(yhat, y)
+motr_bart_fit$trees[[1000]]

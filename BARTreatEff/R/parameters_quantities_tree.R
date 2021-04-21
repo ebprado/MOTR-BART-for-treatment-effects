@@ -30,7 +30,7 @@ tree_full_conditional = function(tree, X, R, sigma2, V, inv_V, nu, lambda, tau_b
   if (ancestors == FALSE) {lm_vars <- c(sort(unique(as.numeric(split_vars_tree))))}
   # if (ancestors == 'all covariates') {lm_vars <- 1:ncol(X)}
   if (ancestors == TRUE) {get_ancs <- get_ancestors(tree)}
-  if (var_linear_pred == 'binary treatments'){
+  if (var_linear_pred == 'binary treatments' & identical(split_vars_tree, character(0)) == FALSE){
     lm_vars = binary_treatment_variables
   }
 
@@ -84,7 +84,7 @@ simulate_beta = function(tree, X, R, sigma2, inv_V, tau_b, nu, ancestors, var_li
   # if (ancestors == 'all covariates') {lm_vars <- 1:ncol(X)}
   if (ancestors == TRUE) {get_ancs <- get_ancestors(tree)}
 
-  if (var_linear_pred == 'binary treatments'){
+  if (var_linear_pred == 'binary treatments' & identical(split_vars_tree, character(0)) == FALSE){
     lm_vars = binary_treatment_variables
   }
 
