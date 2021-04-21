@@ -12,6 +12,8 @@
 # 6. get_number_distinct_cov: counts the number of distinct covariates that are used in a tree to create the splitting rules
 # Compute the full conditionals -------------------------------------------------
 
+tree = new_trees[[j]]
+R = current_partial_residuals
 tree_full_conditional = function(tree, X, R, sigma2, V, inv_V, nu, lambda, tau_b, ancestors, var_linear_pred, binary_treatment_variables) {
 
   # Select the lines that correspond to terminal and internal nodes
@@ -24,7 +26,7 @@ tree_full_conditional = function(tree, X, R, sigma2, V, inv_V, nu, lambda, tau_b
   log_post = NULL
 
   # Get the covariates that have been used as a split
-  split_vars_tree <- tree$tree_matrix[which_internal, 'split_variable']
+  split_vars_tree <- as.numeric(tree$tree_matrix[which_internal, 'split_variable'])
 
   if (ancestors == FALSE) {lm_vars <- c(1, sort(unique(as.numeric(split_vars_tree))))}
   # if (ancestors == 'all covariates') {lm_vars <- 1:ncol(X)}
@@ -79,7 +81,8 @@ simulate_beta = function(tree, X, R, sigma2, inv_V, tau_b, nu, ancestors, var_li
   tree$tree_matrix[,'beta_hat'] = NA
 
   # Get the covariates that have been used as a split
-  split_vars_tree <- tree$tree_matrix[which_internal, 'split_variable']
+  split_vars_tree <- as.numeric(tree$tree_matrix[which_internal, 'split_variable'])
+
   if (ancestors == FALSE) {lm_vars <- c(1, sort(unique(as.numeric(split_vars_tree))))}
   # if (ancestors == 'all covariates') {lm_vars <- 1:ncol(X)}
   if (ancestors == TRUE) {get_ancs <- get_ancestors(tree)}

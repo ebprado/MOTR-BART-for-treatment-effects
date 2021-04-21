@@ -4,18 +4,18 @@
 #' @importFrom MCMCpack 'rdirichlet'
 #' @importFrom truncnorm 'rtruncnorm'
 
-# vars_inter_slope = TRUE
-# ntrees = 10
-# node_min_size = 5
-# alpha = 0.95
-# beta = 2
-# nu = 3
-# lambda = 0.1
-# sigma2 = 1
-# nburn = 1000
-# npost = 1000
-# nthin = 1
-# ancestors = FALSE
+vars_inter_slope = TRUE
+ntrees = 10
+node_min_size = 5
+alpha = 0.95
+beta = 2
+nu = 3
+lambda = 0.1
+sigma2 = 1
+nburn = 1000
+npost = 1000
+nthin = 1
+ancestors = FALSE
 
 motr_bart = function(x,
                      x_binary = NULL, # names of the binary treatment variables
@@ -40,7 +40,7 @@ motr_bart = function(x,
   # X = as.matrix(scale(x)) # no intercept
 
   if (is.null(x_binary) == FALSE){
-    binary_treatment_variables = which(names(X)%in%x_binary)
+    binary_treatment_variables = which(colnames(X)%in%x_binary)
   }
 
   aux.X = apply(X, 2, unique) # Checking how many unique values each variable has

@@ -77,7 +77,7 @@ get_predictions = function(trees, X, single_tree = FALSE, ancestors, var_linear_
       # Get the node indices for the current X matrix
       curr_X_node_indices = fill_tree_details(trees, X)$node_indices
       which_internal = which(trees$tree_matrix[,'terminal'] == 0)
-      split_vars_tree <- trees$tree_matrix[which_internal, 'split_variable']
+      split_vars_tree <- as.numeric(trees$tree_matrix[which_internal, 'split_variable'])
 
       if (ancestors == FALSE) {lm_vars <- c(1, sort(unique(as.numeric(split_vars_tree))))}
       #if (ancestors == 'all covariates') {lm_vars <- 1:ncol(X)}
