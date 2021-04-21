@@ -83,7 +83,7 @@ get_predictions = function(trees, X, single_tree = FALSE, ancestors, var_linear_
       #if (ancestors == 'all covariates') {lm_vars <- 1:ncol(X)}
       if (ancestors == TRUE) {get_ancs <- get_ancestors(trees)}
 
-      if (var_linear_pred == 'binary treatments'){
+      if(var_linear_pred == 'binary treatments' & identical(split_vars_tree, character(0))==FALSE){
         lm_vars = binary_treatment_variables
       }
 
@@ -92,8 +92,7 @@ get_predictions = function(trees, X, single_tree = FALSE, ancestors, var_linear_
       # Now loop through all node indices to fill in details
       for(i in 1:length(unique_node_indices)) {
         if (ancestors == TRUE) {
-          # lm_vars = c(1, get_ancs[which(get_ancs[,'terminal'] == unique_node_indices[i]), 'ancestor']) # Get the corresponding ancestors of the current terminal node
-          lm_vars = c(get_ancs[which(get_ancs[,'terminal'] == unique_node_indices[i]), 'ancestor']) # Get the corresponding ancestors of the current terminal node
+          lm_vars = c(1, get_ancs[which(get_ancs[,'terminal'] == unique_node_indices[i]), 'ancestor']) # Get the corresponding ancestors of the current terminal node
         }
         X_node = matrix(X[,lm_vars], nrow=n)[curr_X_node_indices == unique_node_indices[i],]
         beta_hat = as.numeric(unlist(strsplit(trees$tree_matrix[unique_node_indices[i], 'beta_hat'],",")))
@@ -196,17 +195,15 @@ update_vars_intercepts_slopes <- function(trees, n_tress, sigma2, a0 = 1, b0 = 1
       # get all coefficients of the linear predictors for each terminal node
       all_coef = strsplit(tree$tree_matrix[terminal_nodes, 'beta_hat'], ',')
       # get intercepts
-      # inter = as.numeric(unlist(lapply(all_coef, '[', 1)))
+      inter = as.numeric(unlist(lapply(all_coef, '[', 1)))
       # get slopes
-      # slopes = as.numeric(unlist(lapply(all_coef, '[', -1)))
-      slopes = as.numeric(unlist(all_coef))
+      slopes = as.numeric(unlist(lapply(all_coef, '[', -1)))
 
       n_terminal = n_terminal + length(terminal_nodes)
       n_vars_terminal = n_vars_terminal + length(slopes)
-      # sum_of_squares_inter = sum_of_squares_inter + sum(inter^2)
+      sum_of_squares_inter = sum_of_squares_inter + sum(inter^2)
       sum_of_squares_slopes = sum_of_squares_slopes + sum(slopes^2)
     }
-    return(list(# var_inter = rgamma(1, (n_terminal/2) + a0, sum_of_squares_inter/(2*sigma2) + b0),
-                var_inter = 0,
+    return(list(var_inter = rgamma(1, (n_terminal/2) + a0, sum_of_squares_inter/(2*sigma2) + b0),
                 var_slopes = rgamma(1, (n_vars_terminal/2) + a1, sum_of_squares_slopes/(2*sigma2) + b1)))
 }
