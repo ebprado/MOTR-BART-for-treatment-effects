@@ -34,6 +34,10 @@ tree_full_conditional = function(tree, X, R, sigma2, V, inv_V, nu, lambda, tau_b
     lm_vars = binary_treatment_variables
   }
 
+  if(var_linear_pred == 'covariates + binary treatment' & identical(split_vars_tree, character(0))==FALSE){
+    lm_vars = c(split_vars_tree, binary_treatment_variables)
+  }
+
   # Compute the log marginalised likelihood for each terminal node
   for(i in 1:length(unique_node_indices)) {
     if (ancestors == TRUE) {
@@ -82,6 +86,10 @@ simulate_beta = function(tree, X, R, sigma2, inv_V, tau_b, nu, ancestors, var_li
 
   if(var_linear_pred == 'binary treatments' & identical(split_vars_tree, character(0))==FALSE){
     lm_vars = binary_treatment_variables
+  }
+
+  if(var_linear_pred == 'covariates + binary treatment' & identical(split_vars_tree, character(0))==FALSE){
+    lm_vars = c(split_vars_tree, binary_treatment_variables)
   }
 
   for(i in 1:length(unique_node_indices)) {

@@ -87,6 +87,10 @@ get_predictions = function(trees, X, single_tree = FALSE, ancestors, var_linear_
         lm_vars = binary_treatment_variables
       }
 
+      if(var_linear_pred == 'covariates + binary treatment' & identical(split_vars_tree, character(0))==FALSE){
+        lm_vars = c(split_vars_tree, binary_treatment_variables)
+      }
+
       n = nrow(X)
 
       # Now loop through all node indices to fill in details

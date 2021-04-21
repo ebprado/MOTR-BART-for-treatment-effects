@@ -47,4 +47,12 @@ motr_bart_fit = BARTreatEff::motr_bart(x,
 yhat = apply(motr_bart_fit$y_hat,2,mean)
 plot(yhat, y);abline(0,1)
 cor(yhat, y)
-motr_bart_fit$trees[[1000]]
+motr_bart_fit$trees[[100]]
+
+
+
+
+aa = 1:10
+bb = 15:20
+
+aa = c(aa,bb)
