@@ -12,8 +12,8 @@
 # 6. get_number_distinct_cov: counts the number of distinct covariates that are used in a tree to create the splitting rules
 # Compute the full conditionals -------------------------------------------------
 
-tree = new_trees[[j]]
-R = current_partial_residuals
+# tree = new_trees[[j]]
+# R = current_partial_residuals
 tree_full_conditional = function(tree, X, R, sigma2, V, inv_V, nu, lambda, tau_b, ancestors, var_linear_pred, binary_treatment_variables) {
 
   # Select the lines that correspond to terminal and internal nodes
