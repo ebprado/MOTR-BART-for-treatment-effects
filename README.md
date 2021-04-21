@@ -42,7 +42,7 @@ motr_bart_fit = BARTreatEff::motr_bart(x,
 yhat = apply(motr_bart_fit$y_hat,2,mean) # predicted y
 plot(yhat, y);abline(0,1)
 cor(yhat, y)
-motr_bart_fit$trees[[100]] # tree structure of 100th MCMC iteration (post burn-in)
+motr_bart_fit$trees[[100]] # tree structures at 100th MCMC iteration (post burn-in)
 yhat_pred = predict_motr_bart(motr_bart_fit, x, type='mean') # predict function
 
 # train BART
