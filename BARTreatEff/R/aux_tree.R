@@ -88,7 +88,7 @@ get_predictions = function(trees, X, single_tree = FALSE, ancestors, var_linear_
       }
 
       if(var_linear_pred == 'covariates + binary treatment' & identical(split_vars_tree, character(0))==FALSE){
-        lm_vars = c(split_vars_tree, binary_treatment_variables)
+        lm_vars = sort(c(split_vars_tree, binary_treatment_variables))
       }
 
       n = nrow(X)
