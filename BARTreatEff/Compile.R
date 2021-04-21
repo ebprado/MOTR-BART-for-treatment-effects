@@ -42,7 +42,8 @@ motr_bart_fit = BARTreatEff::motr_bart(x,
                                                     'temp_treats_train1',
                                                     'temp_treats_train2'),
                                        y = y,
-                                       var_linear_pred = 'binary treatments')
+                                       var_linear_pred = 'binary treatments',
+                                       npost = 100)
 yhat = apply(motr_bart_fit$y_hat,2,mean)
 plot(yhat, y);abline(0,1)
 cor(yhat, y)

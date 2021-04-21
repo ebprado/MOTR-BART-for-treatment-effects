@@ -7,7 +7,6 @@
 motr_bart = function(x,
                      x_binary = NULL, # names of the binary treatment variables
                      y,
-                     sparse = TRUE,
                      vars_inter_slope = TRUE,
                      ntrees = 10,
                      node_min_size = 5,
@@ -206,11 +205,6 @@ motr_bart = function(x,
       vars_betas = update_vars_intercepts_slopes(curr_trees, ntrees, sigma2)
       V = 1/c(vars_betas$var_inter, vars_betas$var_slopes)
       inv_V = 1/V
-    }
-
-    # Update s = (s_1, ..., s_p), where s_p is the probability that predictor p is used to create new terminal nodes
-    if (sparse == 'TRUE' & i > floor(TotIter*0.1)){
-      s = update_s(var_count, p, 1)
     }
   } # End iterations loop
 
