@@ -32,6 +32,7 @@ post <- wbart(xtrain_with_t,
               ndpost = 2000)
 plot(post$yhat.train.mean, data$Y);abline(0,1)
 cor(post$yhat.train.mean, data$Y)
+
 ## MOTR-BART
 x = as.data.frame(xtrain_with_t)
 y = data$Y
